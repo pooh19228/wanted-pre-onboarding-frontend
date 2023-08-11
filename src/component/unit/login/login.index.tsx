@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import * as S from '../signup/signup.styles';
 
 const Login: React.FC = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -46,6 +49,7 @@ const Login: React.FC = () => {
                 if (response.status === 200 && response.data.access_token) {
                     alert('로그인에 성공했습니다.');
                      localStorage.setItem('access_token', response.data.access_token);
+                     navigate('/todo');
                 } else {
                     alert('로그인에 실패했습니다.');
                 }
@@ -58,11 +62,11 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div className="login-form">
-            <h2>로그인</h2>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">이메일:</label>
-                <input 
+        <S.Container>
+            <S.Title>로그인</S.Title>
+            <S.Form onSubmit={handleSubmit}>
+                <S.Label htmlFor="email">이메일:</S.Label>
+                <S.Input 
                     type="email" 
                     id="email" 
                     placeholder="이메일을 입력하세요" 
@@ -70,11 +74,10 @@ const Login: React.FC = () => {
                     value={email}
                     onChange={handleEmailChange}
                 />
-                {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
-                <br />
-
-                <label htmlFor="password">비밀번호:</label>
-                <input 
+                {emailError && <S.ErrorText>{emailError}</S.ErrorText>}
+                
+                <S.Label htmlFor="password">비밀번호:</S.Label>
+                <S.Input 
                     type="password" 
                     id="password" 
                     placeholder="비밀번호를 입력하세요" 
@@ -82,18 +85,17 @@ const Login: React.FC = () => {
                     value={password}
                     onChange={handlePasswordChange}
                 />
-                {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
-                <br />
-
-                <button 
+                {passwordError && <S.ErrorText>{passwordError}</S.ErrorText>}
+                
+                <S.SubmitButton 
                     type="submit"
                     data-testid="signin-button" 
                     disabled={!isFormValid()}
                 >
                     로그인
-                </button>
-            </form>
-        </div>
+                </S.SubmitButton>
+            </S.Form>
+        </S.Container>
     );
 }
 
