@@ -42,6 +42,7 @@ const Signup: React.FC = () => {
                 });
     
                 alert('회원가입이 완료되었습니다.');
+                console.log('회원가입 성공');
                 navigate('/signin');
                 
             } catch (error) {
